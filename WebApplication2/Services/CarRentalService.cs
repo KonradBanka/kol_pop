@@ -7,7 +7,7 @@ public class CarRentalService : ICarRentalService
 {
     private readonly ICarRentalRepository _repository;
 
-    public CarRentalService(ICarRentalRepository repository, IConfiguration configuration)
+    public CarRentalService(ICarRentalRepository repository)
     {
         _repository = repository;
     }
@@ -20,10 +20,7 @@ public class CarRentalService : ICarRentalService
     }
 
     public async Task<bool> CreateRentalAsync(NewClientRentalRequest dto)
-    {
-        if (dto.DateFrom >= dto.DateTo)
-            return false;
-
+    { 
         if (!await _repository.CarExistsAsync(dto.CarId))
             throw new NotFoundException("Samochod nie istnieje");
 

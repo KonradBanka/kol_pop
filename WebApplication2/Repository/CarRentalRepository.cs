@@ -74,11 +74,11 @@ public class CarRentalRepository : ICarRentalRepository
 
     public async Task<int> AddClientAsync(Client client)
     {
-        using var connection = new SqlConnection(_connectionString);
+        await using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
         var query = "INSERT INTO clients (FirstName, LastName, Address) OUTPUT INSERTED.ID VALUES (@FirstName, @LastName, @Address)";
-        using var command = new SqlCommand(query, connection);
+        await using var command = new SqlCommand(query, connection);
         command.Parameters.AddWithValue("@FirstName", client.FirstName);
         command.Parameters.AddWithValue("@LastName", client.LastName);
         command.Parameters.AddWithValue("@Address", client.Address);
